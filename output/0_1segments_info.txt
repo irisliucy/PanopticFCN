@@ -1,0 +1,5 @@
+{'id': 1, 'isthing': True, 'score': 0.5316514372825623, 'category_id': 0, 'instance_id': 0, 'area': 42843.0}
+{'id': 2, 'isthing': True, 'score': 0.523272693157196, 'category_id': 0, 'instance_id': 1, 'area': 41672.0}
+{'id': 3, 'isthing': False, 'category_id': 24, 'area': 58523.0}
+{'id': 4, 'isthing': False, 'category_id': 40, 'area': 19409.0}
+{'id': 5, 'isthing': False, 'category_id': 45, 'area': 28157.0}

@@ -54,8 +54,9 @@ class VisualizationDemo(object):
             vis_output = visualizer.draw_panoptic_seg_predictions(
                 panoptic_seg.to(self.cpu_device), segments_info
             )
+            
         else:
-            if "sem_seg" in predictions:
+            if "sem_seg" not in predictions:
                 vis_output = visualizer.draw_sem_seg(
                     predictions["sem_seg"].argmax(dim=0).to(self.cpu_device)
                 )

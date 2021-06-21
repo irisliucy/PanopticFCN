@@ -2,9 +2,11 @@
 import argparse
 import glob
 import multiprocessing as mp
+import numpy as np
 import os
 import time
 import cv2
+import torch
 import tqdm
 
 from detectron2.config import get_cfg
@@ -128,7 +130,6 @@ if __name__ == "__main__":
                     time.time() - start_time,
                 )
             )
-
             if args.output:
                 if os.path.isdir(args.output):
                     assert os.path.isdir(args.output), args.output
@@ -137,6 +138,13 @@ if __name__ == "__main__":
                     assert len(args.input) == 1, "Please specify a directory with args.output"
                     out_filename = args.output
                 visualized_output.save(out_filename)
+                if "panoptic_seg" in predictions:
+                    filename_prefix = out_filename.split('.')[0]
+                    panoptic_seg, segments_info = predictions["panoptic_seg"]
+                    # np.savetxt(filename_prefix + '_panoptic_seg.txt', panoptic_seg.to(torch.device("cpu")), fmt='%s')
+                    # np.savetxt(filename_prefix + 'segments_info.txt', segments_info, fmt='%s')
+                    np.save(filename_prefix + '_panoptic_seg.txt', panoptic_seg.to(torch.device("cpu")))
+                    np.save(filename_prefix + 'segments_info.txt', segments_info)
             else:
                 cv2.namedWindow(WINDOW_NAME, cv2.WINDOW_NORMAL)
                 cv2.imshow(WINDOW_NAME, visualized_output.get_image()[:, :, ::-1])

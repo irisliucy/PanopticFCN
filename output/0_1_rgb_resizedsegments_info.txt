@@ -1,0 +1,6 @@
+{'id': 1, 'isthing': True, 'score': 0.5374423861503601, 'category_id': 0, 'instance_id': 0, 'area': 11426.0}
+{'id': 2, 'isthing': True, 'score': 0.5147668719291687, 'category_id': 27, 'instance_id': 1, 'area': 126.0}
+{'id': 3, 'isthing': True, 'score': 0.3096488416194916, 'category_id': 0, 'instance_id': 2, 'area': 10315.0}
+{'id': 4, 'isthing': False, 'category_id': 24, 'area': 14860.0}
+{'id': 5, 'isthing': False, 'category_id': 40, 'area': 4468.0}
+{'id': 6, 'isthing': False, 'category_id': 45, 'area': 8098.0}
