@@ -72,6 +72,7 @@ def add_panopticfcn_config(cfg):
     cfg.MODEL.INFERENCE.SIMILAR_THRES     = 0.9
     cfg.MODEL.INFERENCE.SIMILAR_TYPE      = "cosine"
     cfg.MODEL.INFERENCE.CLASS_SPECIFIC    = True
+    cfg.MODEL.INFERENCE.INCLUDE_SEG_MODE  = False
 
     cfg.MODEL.INFERENCE.COMBINE  = CN()
     cfg.MODEL.INFERENCE.COMBINE.ENABLE           = True
@@ -81,5 +82,22 @@ def add_panopticfcn_config(cfg):
     cfg.MODEL.INFERENCE.COMBINE.INST_THRESH      = 0.2
 
 
-
+    # ---------------------------------------------------------------------------- #
+    # ResNest
+    # ---------------------------------------------------------------------------- #
+    # Place the stride 2 conv on the 1x1 filter
+    # Use True only for the original MSRA ResNet;
+    # use False for C2 and Torch models
+    cfg.MODEL.RESNETS.STRIDE_IN_1X1 = False
+    # Apply deep stem
+    cfg.MODEL.RESNETS.DEEP_STEM = True
+    # Apply avg after conv2 in the BottleBlock
+    # When AVD=True, the STRIDE_IN_1X1 should be False
+    cfg.MODEL.RESNETS.AVD = True
+    # Apply avg_down to the downsampling layer for residual path
+    cfg.MODEL.RESNETS.AVG_DOWN = True
+    # Radix in ResNeSt
+    cfg.MODEL.RESNETS.RADIX = 2
+    # Bottleneck_width in ResNeSt
+    cfg.MODEL.RESNETS.BOTTLENECK_WIDTH = 64
 

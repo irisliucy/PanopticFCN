@@ -9,6 +9,7 @@ from detectron2.modeling.backbone import build_resnet_backbone
 from detectron2.modeling.backbone.backbone import Backbone
 from detectron2.modeling.backbone.fpn import FPN
 from detectron2.layers import Conv2d, ShapeSpec, get_norm
+from .backbone import build_resnest_backbone
 
 class SemanticFPN(nn.Module):
     """
@@ -92,7 +93,10 @@ def build_resnet_fpn_p5_backbone(cfg, input_shape: ShapeSpec):
     Returns:
         backbone (Backbone): backbone module, must be a subclass of :class:`Backbone`.
     """
-    bottom_up = build_resnet_backbone(cfg, input_shape)
+    if "resnet" in cfg.MODEL.BACKBONE.NAME:
+        bottom_up = build_resnet_backbone(cfg, input_shape)
+    elif "resnest" in cfg.MODEL.BACKBONE.NAME:
+        bottom_up = build_resnest_backbone(cfg, input_shape)
     in_features = cfg.MODEL.FPN.IN_FEATURES
     out_channels = cfg.MODEL.FPN.OUT_CHANNELS
     in_channels_p6p7 = out_channels

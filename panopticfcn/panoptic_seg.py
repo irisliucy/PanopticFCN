@@ -45,6 +45,7 @@ class PanopticFCN(nn.Module):
         self.panoptic_overlap_thrs = cfg.MODEL.INFERENCE.COMBINE.OVERLAP_THRESH
         self.panoptic_stuff_limit  = cfg.MODEL.INFERENCE.COMBINE.STUFF_AREA_LIMIT
         self.panoptic_inst_thrs    = cfg.MODEL.INFERENCE.COMBINE.INST_THRESH
+        self.include_seg_mode      = cfg.MODEL.INFERENCE.INCLUDE_SEG_MODE
         
         # backbone
         self.backbone              = build_backbone(cfg)
@@ -398,6 +399,18 @@ class PanopticFCN(nn.Module):
             pred_sem_seg = torch.zeros(sem_classes, *pred_stuff.shape[-2:], device=self.device)
             pred_sem_seg[class_sts] += pred_stuff
             processed_results.append({"sem_seg": pred_sem_seg, "instances": result_instance})
+
+            if self.include_seg_mode:
+                pred_sem_seg_segmode = pred_sem_seg.clone()
+                # manually set the score of thing class to the smallest value
+                pred_sem_seg_segmode[0,...] = torch.min(pred_sem_seg_segmode.flatten())-1e-3
+                result_segmode = self.combine_thing_and_stuff(
+                    [pred_mask, class_ths, score_ths],
+                    pred_sem_seg_segmode.argmax(dim=0),
+                    self.panoptic_overlap_thrs,
+                    self.panoptic_stuff_limit,
+                    self.panoptic_inst_thrs)
+                processed_results[-1]["panoptic_seg_segmode"] = result_segmode
 
             if self.panoptic_combine:
                 result_panoptic = self.combine_thing_and_stuff(
