@@ -133,7 +133,7 @@ if __name__ == "__main__":
             if args.output:
                 if os.path.isdir(args.output):
                     assert os.path.isdir(args.output), args.output
-                    out_filename = os.path.join(args.output, os.path.basename(path))
+                    out_filename = os.path.join(args.output, 'panoptic_' + os.path.basename(path))
                 else:
                     assert len(args.input) == 1, "Please specify a directory with args.output"
                     out_filename = args.output
@@ -141,8 +141,6 @@ if __name__ == "__main__":
                 if "panoptic_seg" in predictions:
                     filename_prefix = out_filename.split('.')[0]
                     panoptic_seg, segments_info = predictions["panoptic_seg"]
-                    # np.savetxt(filename_prefix + '_panoptic_seg.txt', panoptic_seg.to(torch.device("cpu")), fmt='%s')
-                    # np.savetxt(filename_prefix + 'segments_info.txt', segments_info, fmt='%s')
                     np.save(filename_prefix + '_panoptic_seg.npy', panoptic_seg.to(torch.device("cpu")))
                     np.save(filename_prefix + '_segments_info.npy', segments_info)
             else:
