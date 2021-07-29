@@ -141,8 +141,8 @@ if __name__ == "__main__":
                 if "panoptic_seg" in predictions:
                     filename_prefix = out_filename.split('.')[0]
                     panoptic_seg, segments_info = predictions["panoptic_seg"]
-                    np.save(filename_prefix + '_panoptic_seg.npy', panoptic_seg.to(torch.device("cpu")))
-                    np.save(filename_prefix + '_segments_info.npy', segments_info)
+                    np.save(filename_prefix + '_seg.npy', panoptic_seg.to(torch.device("cpu")))
+                    np.save(filename_prefix + '_info.npy', segments_info)
             else:
                 cv2.namedWindow(WINDOW_NAME, cv2.WINDOW_NORMAL)
                 cv2.imshow(WINDOW_NAME, visualized_output.get_image()[:, :, ::-1])
